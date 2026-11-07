@@ -159,12 +159,32 @@ def fig_per_tone(df: pd.DataFrame) -> None:
     save(fig, "per_tone_lte_automotive")
 
 
+def fig_profiles() -> None:
+    """Measured average power-delay profiles of the three NIST runs."""
+    folder = RESULTS / "nist_profiles"
+    files = [("steam_plant", "steam plant"), ("machine_shop", "machine shop"), ("automotive_plant", "automotive plant")]
+    if not all((folder / f"nist_profile_{k}.csv").exists() for k, _ in files):
+        return
+    fig, ax = plt.subplots(figsize=(COLUMN, 1.8))
+    for (key, label), c, m in zip(files, ["#1f77b4", "#2ca02c", "#d62728"], ["o", "s", "^"]):
+        t = pd.read_csv(folder / f"nist_profile_{key}.csv")
+        ax.plot(t.delay_s * 1e9, 10 * np.log10(t.power / t.power.max()), color=c, marker=m, markersize=2, linewidth=0.8, label=label)
+    ax.set_xlabel("Delay (ns)")
+    ax.set_ylabel("Power relative to peak (dB)")
+    ax.set_ylim(-32, 2)
+    ax.grid(True)
+    ax.legend()
+    fig.tight_layout()
+    save(fig, "measured_profiles")
+
+
 def main() -> None:
     regime = pd.read_csv(RESULTS / "regime.csv")
     fig_regime(regime)
     fig_snr(regime)
     if (RESULTS / "per_tone.csv").exists():
         fig_per_tone(pd.read_csv(RESULTS / "per_tone.csv"))
+    fig_profiles()
     if (RESULTS / "mismatch.csv").exists():
         fig_mismatch(pd.read_csv(RESULTS / "mismatch.csv"))
     if (RESULTS / "ber.csv").exists():

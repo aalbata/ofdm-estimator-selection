@@ -92,7 +92,36 @@ def site_profiles(grid: OfdmGrid) -> dict[str, DelayProfile]:
     for name, ds in out.items():
         limit = grid.cp_duration_s
         profiles[name] = DelayProfile.exponential(ds, grid.sample_period_s, max_delay_s=min(15 * ds, limit), name=name)
+    profiles.update(measured_profiles(grid))
     return profiles
+
+
+MEASURED_SITES = {"steam_plant": "NIST steam plant", "machine_shop": "NIST machine shop", "automotive_plant": "NIST automotive plant"}
+
+
+def measured_profiles(grid: OfdmGrid) -> dict[str, DelayProfile]:
+    """Average profiles measured by the NIST channel sounder, one run per site.
+
+    Produced by experiments/process_nist.py from the public NIST impulse-response files
+    (not shipped; see the README) and stored in results/nist_profiles. Taps beyond the
+    cyclic prefix of the grid are dropped and the powers renormalised.
+    """
+    import pandas as pd
+
+    folder = RESULTS / "nist_profiles"
+    out = {}
+    for key, site in MEASURED_SITES.items():
+        path = folder / f"nist_profile_{key}.csv"
+        if not path.exists():
+            continue
+        table = pd.read_csv(path)
+        delays = table["delay_s"].to_numpy()
+        powers = table["power"].to_numpy()
+        keep = delays <= grid.cp_duration_s
+        profile = DelayProfile(delays[keep], powers[keep])
+        name = f"{site}, measured ({profile.rms_delay_spread_s*1e9:.0f} ns)"
+        out[name] = DelayProfile(delays[keep], powers[keep], name=name)
+    return out
 
 
 def exponential_profile(grid: OfdmGrid, ds: float) -> DelayProfile:

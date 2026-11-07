@@ -62,6 +62,24 @@ Exact error against Monte Carlo (`results/validation.csv`): 408 cells, 96.3 perc
 exact values inside the 95 percent interval of the simulation, largest relative deviation
 2.3 percent.
 
+## Measured factory profiles
+
+`results/nist_profiles/` holds the average power-delay profiles derived from the public NIST
+industrial wireless channel-sounder measurements (doi:10.18434/T44S3N), one run per site at
+2.245 GHz with vertical polarisation, produced by `experiments/process_nist.py` from the
+original MATLAB 7.3 files (1.5 to 5.8 GB each, not shipped). Reproducing those files needs
+the `h5py` package (version 3.16.0 was used) and the three NIST files named in
+`results/nist_profiles/README.md`; everything else in the study runs from the shipped
+profiles.
+
+Statistics of the three runs (from the `_stats.csv` files):
+
+| Site | Records used | RMS delay spread, 15 dB window, after outlier test (ns) | Reported by NIST for the run (ns) | RMS delay spread, all kept samples (ns) | RMS delay spread of the averaged profile (ns) | Taps |
+|---|---|---|---|---|---|---|
+| Steam plant | 12,815 | 32.6 | 35.4 | 44.8 | 54.8 | 76 |
+| Machine shop | 11,099 | 65.3 | 64.9 | 82.4 | 93.4 | 53 |
+| Automotive plant | 34,881 | 116.7 | 135.3 | 184.3 | 150.0 | 73 |
+
 ## Result file columns
 
 `results/regime.csv`: `grid` and `map` (pilot map), `n_tones`, `n_pilots`, `profile_kind`

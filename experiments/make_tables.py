@@ -273,6 +273,90 @@ def macros_from_per_tone(t: pd.DataFrame, out: dict) -> None:
     out["EdgeLinearOscMax"] = fmt(10 * np.log10(lin.min()))
 
 
+def macros_from_nist(out: dict) -> None:
+    """Numbers from the NIST processing statistics and the measured-profile rows of the regime study."""
+    folder = RESULTS / "nist_profiles"
+    names = {"steam_plant": "Steam", "machine_shop": "Shop", "automotive_plant": "Auto"}
+    reported = {"machine_shop": 64.9, "steam_plant": 35.4, "automotive_plant": 135.3}
+    rows = []
+    for key, short_name in names.items():
+        f = folder / f"nist_profile_{key}_stats.csv"
+        if not f.exists():
+            continue
+        st = pd.read_csv(f).iloc[0]
+        out[f"Nist{short_name}Records"] = f"{int(st.records_used):,}"
+        out[f"Nist{short_name}RmsFifteen"] = fmt(st.rms_delay_spread_15db_grubbs_mean_ns)
+        out[f"Nist{short_name}RmsFifteenRaw"] = fmt(st.rms_delay_spread_15db_mean_ns)
+        out[f"Nist{short_name}PeakToFloor"] = fmt(st.peak_to_floor_db_mean, 0)
+        out[f"Nist{short_name}RmsThirty"] = fmt(st.rms_delay_spread_30db_mean_ns)
+        out[f"Nist{short_name}RmsProfile"] = fmt(st.average_profile_rms_delay_spread_ns)
+        out[f"Nist{short_name}Taps"] = str(int(st.average_profile_taps))
+        out[f"Nist{short_name}SampleNs"] = fmt(1e3 / float(st.sample_rate_mhz))
+        out[f"Nist{short_name}ChipNs"] = fmt(1e3 / float(st.sample_rate_mhz) * float(st.samples_per_chip), 0)
+        out[f"Nist{short_name}RateMs"] = fmt(float(st.sample_rate_mhz), 0)
+        out[f"Nist{short_name}Reported"] = fmt(reported[key])
+        rows.append((key, st))
+    if rows:
+        out["NistSampleNs"] = fmt(1e3 / float(rows[0][1].sample_rate_mhz))
+        out["NistChipNs"] = fmt(1e3 / float(rows[0][1].sample_rate_mhz) * float(rows[0][1].samples_per_chip), 0)
+        out["NistDynamicDb"] = fmt(min(float(st.peak_to_floor_db_mean) for _, st in rows), 0)
+
+
+def table_measured_vs_exponential(r: pd.DataFrame, out: dict) -> None:
+    """Error on the measured profiles against the exponential site profiles, NR type 1 and LTE, 15 dB."""
+    sites = r[(r.profile_kind == "site") & (r.snr_db == 15.0)]
+    pairs = [("NIST steam plant", "steam"), ("NIST machine shop", "shop"), ("NIST automotive plant", "automotive")]
+    ests = ["linear (constant edges)", "DFT interpolation", "Wiener (matched)"]
+    lines = []
+    diffs = []
+    for prefix, label in pairs:
+        for grid, gname in (("NR 20 MHz, DM-RS type 1", "NR type 1"), ("LTE 20 MHz, CRS", "LTE CRS")):
+            g = sites[sites.grid == grid]
+            measured = g[g.profile.str.startswith(prefix + ", measured")]
+            expo = g[g.profile.str.startswith(prefix + " (")]
+            if measured.empty or expo.empty:
+                continue
+            uni_m = measured[measured.estimator.str.startswith("Wiener (uniform")].error_db.iloc[0]
+            uni_e = expo[expo.estimator.str.startswith("Wiener (uniform")].error_db.iloc[0]
+            cells = []
+            for est in ests:
+                em = measured[measured.estimator == est].error_db.iloc[0]
+                ee = expo[expo.estimator == est].error_db.iloc[0]
+                cells.append(f"{em:.1f} & {ee:.1f}")
+                diffs.append(em - ee)
+            cells.append(f"{uni_m:.1f} & {uni_e:.1f}")
+            diffs.append(uni_m - uni_e)
+            ds_m = measured.rms_delay_spread_ns.iloc[0]
+            ds_e = expo.rms_delay_spread_ns.iloc[0]
+            lines.append(f"{label.capitalize()} ({ds_m:.0f} / {ds_e:.0f} ns) & {gname} & " + " & ".join(cells) + " \\\\")
+    if not lines:
+        return
+    out["MeasVsExpMaxAbsDiff"] = fmt(max(abs(d) for d in diffs))
+    out["MeasVsExpMeanDiff"] = fmt(sum(diffs) / len(diffs))
+    groups = {"Interp": ["nearest pilot", "linear (constant edges)", "cubic spline (constant edges)"], "Wiener": ["Wiener (matched)"], "Dft": ["DFT interpolation"]}
+    for gname, members in groups.items():
+        vals = []
+        for prefix, _ in pairs:
+            for grid in ("NR 20 MHz, DM-RS type 1", "NR 20 MHz, DM-RS type 2", "LTE 20 MHz, CRS"):
+                g = sites[sites.grid == grid]
+                measured = g[g.profile.str.startswith(prefix + ", measured")]
+                expo = g[g.profile.str.startswith(prefix + " (")]
+                for est in members:
+                    a = measured[measured.estimator == est]
+                    b = expo[expo.estimator == est]
+                    if not a.empty and not b.empty:
+                        vals.append(abs(float(a.error_db.iloc[0]) - float(b.error_db.iloc[0])))
+                if gname == "Wiener":
+                    a = measured[measured.estimator.str.startswith("Wiener (uniform")]
+                    b = expo[expo.estimator.str.startswith("Wiener (uniform")]
+                    if not a.empty and not b.empty:
+                        vals.append(abs(float(a.error_db.iloc[0]) - float(b.error_db.iloc[0])))
+        if vals:
+            out[f"MeasVsExp{gname}Max"] = fmt(max(vals), 2 if gname == "Interp" else 1)
+    (TABLES / "measured.tex").write_text(
+        "\\begin{table*}[t]\n\\centering\n\\caption{Error in dB at 15 dB SNR on the measured factory profiles (M) and on the exponential profiles with the site delay spreads reported by NIST (E). The RMS delay spreads of the two profiles are given after the site name.}\n\\label{tab:measured}\n\\footnotesize\n\\setlength{\\tabcolsep}{4pt}\n\\begin{tabular}{ll rr rr rr rr}\n\\toprule\n & & \\multicolumn{2}{c}{Linear} & \\multicolumn{2}{c}{DFT} & \\multicolumn{2}{c}{Wiener, matched} & \\multicolumn{2}{c}{Wiener, uniform prefix} \\\\\n\\cmidrule(lr){3-4}\\cmidrule(lr){5-6}\\cmidrule(lr){7-8}\\cmidrule(lr){9-10}\nSite (M / E) & Map & M & E & M & E & M & E & M & E \\\\\n\\midrule\n" + "\n".join(lines) + "\n\\bottomrule\n\\end{tabular}\n\\end{table*}\n")
+
+
 def macros_from_cost(c: pd.DataFrame, out: dict) -> None:
     lte = c[c.grid == "LTE 20 MHz, CRS"].set_index("estimator")
     out["CostLinearMults"] = f"{int(lte.loc['linear (constant edges)'].real_multiplications):,}"
@@ -355,7 +439,10 @@ def main() -> None:
     out["TestCount"] = str(n_tests)
     out["RepositoryUrl"] = "https://github.com/aalbata/ofdm-estimator-selection"
     macros_from_validation(pd.read_csv(RESULTS / "validation.csv"), out)
-    macros_from_regime(pd.read_csv(RESULTS / "regime.csv"), out)
+    regime = pd.read_csv(RESULTS / "regime.csv")
+    macros_from_regime(regime, out)
+    macros_from_nist(out)
+    table_measured_vs_exponential(regime, out)
     if (RESULTS / "mismatch.csv").exists():
         macros_from_mismatch(pd.read_csv(RESULTS / "mismatch.csv"), out)
     if (RESULTS / "ber.csv").exists():
