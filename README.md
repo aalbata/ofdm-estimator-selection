@@ -41,7 +41,7 @@ python reproduce.py
 
 `python reproduce.py` rebuilds the figures and the paper's tables and inline numbers from the
 shipped result files in a few seconds. `python reproduce.py --full` reruns every experiment
-first; it takes about an hour on a laptop and writes the result files anew. All experiments
+first; it takes about twenty minutes on a laptop and writes the result files anew. All experiments
 are deterministic given their recorded seeds and the four linear-algebra threads that
 `reproduce.py` sets, except `results/cost.csv` and the `ga_seconds` column of
 `results/pilot_maps.csv`, whose measured run times depend on the machine.

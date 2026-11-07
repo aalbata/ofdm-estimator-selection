@@ -1,8 +1,8 @@
 """Regenerate the tables and figures of the study.
 
 Fast path (default): build every figure and table from the result files shipped in
-``results``. Full path (``--full``): rerun the experiments first, which takes about an hour
-on a laptop, then build the figures and tables. Run from the folder that holds this file
+``results``. Full path (``--full``): rerun the experiments first, which takes about twenty
+minutes on a laptop, then build the figures and tables. Run from the folder that holds this file
 after installing the package with ``pip install -e ofdmest``.
 """
 from __future__ import annotations
@@ -14,7 +14,16 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-EXPERIMENTS = ["validate_engine.py", "run_regime.py", "run_mismatch.py", "run_pilot_maps.py", "run_ber.py", "run_per_tone.py", "run_cost.py"]
+EXPERIMENTS: list[tuple[str, ...]] = [
+    ("validate_engine.py", str(HERE / "results" / "validation.csv")),
+    ("run_regime.py",),
+    ("run_mismatch.py",),
+    ("run_pilot_maps.py",),
+    ("run_ber.py",),
+    ("run_ber.py", "--16qam"),
+    ("run_per_tone.py",),
+    ("run_cost.py",),
+]
 
 
 def run(script: str, *args: str) -> None:
@@ -35,11 +44,8 @@ def main() -> None:
     parser.add_argument("--full", action="store_true", help="rerun all experiments before building figures and tables")
     args = parser.parse_args()
     if args.full:
-        for script in EXPERIMENTS:
-            if script == "validate_engine.py":
-                run(script, str(HERE / "results" / "validation.csv"))
-            else:
-                run(script)
+        for script, *script_args in EXPERIMENTS:
+            run(script, *script_args)
     run("make_figures.py")
     run("make_tables.py")
 

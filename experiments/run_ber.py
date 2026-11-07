@@ -1,8 +1,8 @@
 """Bit error rate study: matched-draw Monte Carlo of QPSK with each estimator.
 
-For the LTE and NR type 1 grids and the three NIST factory-site profiles plus one long
-exponential profile, every estimator is applied to the same 5,000 channel, noise and data
-draws per SNR. Writes results/ber.csv with the simulated error, its 95 percent half width,
+For the LTE and NR type 1 grids and the NIST factory-site profiles (the exponential profiles
+at the reported delay spreads and the measured profiles) plus one long exponential profile,
+every estimator is applied to the same 5,000 channel, noise and data draws per SNR. Writes results/ber.csv with the simulated error, its 95 percent half width,
 the exact error, and the bit error rate with zero-forcing equalisation (QPSK by default,
 16-QAM with ``--16qam``, written to results/ber_16qam.csv).
 """
