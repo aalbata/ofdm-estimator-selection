@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=78"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ofdmest"
+version = "0.1.0"
+description = "Exact error analysis of linear pilot-aided OFDM channel estimators"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Ali Al Bataineh", email = "aalbataineh@hct.ac.ae" }]
+dependencies = ["numpy==2.5.2", "scipy==1.18.1", "pandas==3.0.5", "matplotlib==3.11.1"]
+
+[project.scripts]
+ofdmest = "ofdmest.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

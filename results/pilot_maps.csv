@@ -1,0 +1,55 @@
+rms_delay_spread_ns,scenario,map,indices,objective_db,ga_seconds,ga_maps_evaluated
+25.0,clean band,anchored,0 9 18 27 36 45 54 63,-13.816090592195165,,
+25.0,clean band,centred,4 12 20 28 36 44 52 60,-13.600350312625903,,
+25.0,clean band,genetic algorithm,0 9 18 27 36 45 54 63,-13.816090592195165,0.2968949999776669,532.0
+25.0,interferer on tones 8 to 15 (+20 dB),anchored,0 9 18 27 36 45 54 63,-2.555876485876261,,
+25.0,interferer on tones 8 to 15 (+20 dB),centred,4 12 20 28 36 44 52 60,-3.0021170139384017,,
+25.0,interferer on tones 8 to 15 (+20 dB),"anchored, moved off interferer",0 7 18 27 36 45 54 63,-13.769091449233715,,
+25.0,interferer on tones 8 to 15 (+20 dB),"centred, moved off interferer",4 16 20 28 36 44 52 60,-13.457002517537306,,
+25.0,interferer on tones 8 to 15 (+20 dB),genetic algorithm,0 7 17 27 36 45 54 63,-13.783208666967115,0.3435370999504812,638.0
+25.0,interferer on tones 20 to 27 (+20 dB),anchored,0 9 18 27 36 45 54 63,-2.555876485876261,,
+25.0,interferer on tones 20 to 27 (+20 dB),centred,4 12 20 28 36 44 52 60,-3.0021170139384017,,
+25.0,interferer on tones 20 to 27 (+20 dB),"anchored, moved off interferer",0 9 18 28 36 45 54 63,-13.804297136941734,,
+25.0,interferer on tones 20 to 27 (+20 dB),"centred, moved off interferer",4 12 19 28 36 44 52 60,-13.591426684553253,,
+25.0,interferer on tones 20 to 27 (+20 dB),genetic algorithm,0 9 18 28 36 45 54 63,-13.804297136941734,0.33093880000524223,577.0
+25.0,interferer on tones 44 to 51 (+20 dB),anchored,0 9 18 27 36 45 54 63,-2.555876485876261,,
+25.0,interferer on tones 44 to 51 (+20 dB),centred,4 12 20 28 36 44 52 60,-3.0021170139384017,,
+25.0,interferer on tones 44 to 51 (+20 dB),"anchored, moved off interferer",0 9 18 27 36 43 54 63,-13.769091449233715,,
+25.0,interferer on tones 44 to 51 (+20 dB),"centred, moved off interferer",4 12 20 28 36 43 52 60,-13.591426684553253,,
+25.0,interferer on tones 44 to 51 (+20 dB),genetic algorithm,0 9 18 27 34 43 53 62,-13.78686942445902,0.36347889999160543,814.0
+50.0,clean band,anchored,0 9 18 27 36 45 54 63,-11.16417278531155,,
+50.0,clean band,centred,4 12 20 28 36 44 52 60,-11.391304604694866,,
+50.0,clean band,genetic algorithm,3 12 20 28 36 44 52 60,-11.458375778700203,0.30085220001637936,669.0
+50.0,interferer on tones 8 to 15 (+20 dB),anchored,0 9 18 27 36 45 54 63,-2.2907002279962967,,
+50.0,interferer on tones 8 to 15 (+20 dB),centred,4 12 20 28 36 44 52 60,-2.758194324902732,,
+50.0,interferer on tones 8 to 15 (+20 dB),"anchored, moved off interferer",0 7 18 27 36 45 54 63,-11.031569756249002,,
+50.0,interferer on tones 8 to 15 (+20 dB),"centred, moved off interferer",4 16 20 28 36 44 52 60,-10.915073917654222,,
+50.0,interferer on tones 8 to 15 (+20 dB),genetic algorithm,1 7 17 27 36 44 52 60,-11.236078334223139,0.3241402000421658,685.0
+50.0,interferer on tones 20 to 27 (+20 dB),anchored,0 9 18 27 36 45 54 63,-2.2907002279962967,,
+50.0,interferer on tones 20 to 27 (+20 dB),centred,4 12 20 28 36 44 52 60,-2.758194324902732,,
+50.0,interferer on tones 20 to 27 (+20 dB),"anchored, moved off interferer",0 9 18 28 36 45 54 63,-11.130346721067063,,
+50.0,interferer on tones 20 to 27 (+20 dB),"centred, moved off interferer",4 12 19 28 36 44 52 60,-11.358401624088035,,
+50.0,interferer on tones 20 to 27 (+20 dB),genetic algorithm,3 11 19 28 36 44 52 60,-11.458375778700203,0.3531756000011228,730.0
+50.0,interferer on tones 44 to 51 (+20 dB),anchored,0 9 18 27 36 45 54 63,-2.2907002279962967,,
+50.0,interferer on tones 44 to 51 (+20 dB),centred,4 12 20 28 36 44 52 60,-2.758194324902732,,
+50.0,interferer on tones 44 to 51 (+20 dB),"anchored, moved off interferer",0 9 18 27 36 43 54 63,-11.031569756249002,,
+50.0,interferer on tones 44 to 51 (+20 dB),"centred, moved off interferer",4 12 20 28 36 43 52 60,-11.358401624088035,,
+50.0,interferer on tones 44 to 51 (+20 dB),genetic algorithm,3 12 20 28 36 43 52 60,-11.424962674868768,0.3427609000355005,680.0
+100.0,clean band,anchored,0 9 18 27 36 45 54 63,-6.083940456803427,,
+100.0,clean band,centred,4 12 20 28 36 44 52 60,-6.557390234856216,,
+100.0,clean band,genetic algorithm,3 12 20 28 36 44 52 60,-6.586162461302591,0.31863350002095103,691.0
+100.0,interferer on tones 8 to 15 (+20 dB),anchored,0 9 18 27 36 45 54 63,-1.1918636356395524,,
+100.0,interferer on tones 8 to 15 (+20 dB),centred,4 12 20 28 36 44 52 60,-1.6862420880091877,,
+100.0,interferer on tones 8 to 15 (+20 dB),"anchored, moved off interferer",0 7 18 27 36 45 54 63,-6.002752850503871,,
+100.0,interferer on tones 8 to 15 (+20 dB),"centred, moved off interferer",4 16 20 28 36 44 52 60,-6.174619728909746,,
+100.0,interferer on tones 8 to 15 (+20 dB),genetic algorithm,4 16 22 28 36 44 52 60,-6.281714648063623,0.3303069000248797,720.0
+100.0,interferer on tones 20 to 27 (+20 dB),anchored,0 9 18 27 36 45 54 63,-1.1918636356395524,,
+100.0,interferer on tones 20 to 27 (+20 dB),centred,4 12 20 28 36 44 52 60,-1.6862420880091877,,
+100.0,interferer on tones 20 to 27 (+20 dB),"anchored, moved off interferer",0 9 18 28 36 45 54 63,-6.063514028860668,,
+100.0,interferer on tones 20 to 27 (+20 dB),"centred, moved off interferer",4 12 19 28 36 44 52 60,-6.531944744696265,,
+100.0,interferer on tones 20 to 27 (+20 dB),genetic algorithm,3 11 19 28 36 44 52 60,-6.586162461302591,0.3458023000275716,764.0
+100.0,interferer on tones 44 to 51 (+20 dB),anchored,0 9 18 27 36 45 54 63,-1.1918636356395524,,
+100.0,interferer on tones 44 to 51 (+20 dB),centred,4 12 20 28 36 44 52 60,-1.6862420880091886,,
+100.0,interferer on tones 44 to 51 (+20 dB),"anchored, moved off interferer",0 9 18 27 36 43 54 63,-6.002752850503869,,
+100.0,interferer on tones 44 to 51 (+20 dB),"centred, moved off interferer",4 12 20 28 36 43 52 60,-6.531944744696265,,
+100.0,interferer on tones 44 to 51 (+20 dB),genetic algorithm,3 12 20 28 36 43 52 60,-6.560548331645011,0.3269571999553591,665.0

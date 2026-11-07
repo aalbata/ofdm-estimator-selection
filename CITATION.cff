@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+title: "ofdmest: exact error analysis of linear pilot-aided OFDM channel estimators"
+message: "If you use this software, please cite it and the accompanying paper."
+type: software
+authors:
+  - family-names: Al Bataineh
+    given-names: Ali
+    affiliation: Higher Colleges of Technology, Abu Dhabi, United Arab Emirates
+    orcid: https://orcid.org/0000-0001-9530-7950
+license: MIT
+version: 0.1.0
+repository-code: "https://github.com/aalbata/ofdm-estimator-selection"
+date-released: 2026-11-07

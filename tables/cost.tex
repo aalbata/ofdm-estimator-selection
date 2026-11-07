@@ -1,0 +1,32 @@
+\begin{table}[t]
+\centering
+\caption{Cost per OFDM symbol: real multiplications of a straightforward implementation, one-time design time of the matrix, and measured NumPy application time per symbol as a stored matrix (dense) and as a structured implementation where one exists. Times on the author's machine, indicative only.}
+\label{tab:cost}
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{llrrrr}
+\toprule
+Grid & Estimator & Mults & Design & Dense & Struct. \\
+ & & & (ms) & (\si{\micro\second}) & (\si{\micro\second}) \\
+\midrule
+NR type 1 & Nearest pilot & 0 & 0.5 & 15 & 3 \\
+NR type 1 & Linear & 2,448 & 3.4 & 15 & 22 \\
+NR type 1 & Spline & 6,732 & 10.9 & 15 & -- \\
+NR type 1 & DFT & 16,384 & 3.3 & 14 & 17 \\
+NR type 1 & Wiener, uniform & 749,088 & 82.0 & 14 & -- \\
+NR type 1 & Wiener, matched & 749,088 & 29.2 & 13 & -- \\
+LTE CRS & Nearest pilot & 0 & 0.6 & 20 & 4 \\
+LTE CRS & Linear & 4,800 & 4.3 & 22 & 31 \\
+LTE CRS & Spline & 9,200 & 5.2 & 20 & -- \\
+LTE CRS & DFT & 27,606 & 8.4 & 23 & 24 \\
+LTE CRS & Wiener, uniform & 960,000 & 141.1 & 21 & -- \\
+LTE CRS & Wiener, matched & 960,000 & 25.4 & 19 & -- \\
+DVB-T2 (6) & Nearest pilot & 0 & 0.4 & 13 & 4 \\
+DVB-T2 (6) & Linear & 4,096 & 2.9 & 13 & 27 \\
+DVB-T2 (6) & Spline & 7,854 & 4.4 & 19 & -- \\
+DVB-T2 (6) & DFT & 23,062 & 11.5 & 12 & 23 \\
+DVB-T2 (6) & Wiener, uniform & 700,416 & 121.3 & 16 & -- \\
+DVB-T2 (6) & Wiener, matched & 700,416 & 30.5 & 16 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\caption{Exact error against Monte Carlo (10,000 symbols per cell). Columns: pilot map, pilots per analysed tones, cells (estimators, profiles and SNRs), share of cells where the exact value lies inside the 95 percent interval of the simulation, and largest relative deviation in percent.}
+\label{tab:validation}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+Map & Pilots & Cells & Inside (\%) & Max dev. (\%) \\
+\midrule
+NR type 1 & 120/240 & 72 & 93 & 1.49 \\
+NR type 2 & 80/240 & 72 & 97 & 0.79 \\
+LTE CRS & 50/300 & 72 & 97 & 2.27 \\
+DVB-T2 PP2 & 64/768 & 48 & 98 & 1.89 \\
+DVB-T2 PP7 & 8/768 & 48 & 100 & 1.07 \\
+proprietary anchored & 8/64 & 48 & 94 & 1.45 \\
+proprietary centred & 8/64 & 48 & 96 & 1.40 \\
+\bottomrule
+\end{tabular}
+\end{table}
